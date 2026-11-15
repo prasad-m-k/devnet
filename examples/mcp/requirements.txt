@@ -1,0 +1,4 @@
+mcp>=2
+google-genai
+google-adk
+pytest
