@@ -1,0 +1,6 @@
+google-genai
+pydantic
+pytest
+opentelemetry-sdk
+pandas
+matplotlib

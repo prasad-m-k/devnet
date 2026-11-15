@@ -1,0 +1,34 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 2 * * *"        # every night at 02:00 UTC
+  workflow_dispatch:           # a "Run workflow" button for live runs on demand
+
+jobs:
+  free:                        # fakes only: every push, no key, no cost
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pytest -q
+
+  live:                        # real API: nightly and on demand only
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    needs: free
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      RUN_LIVE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pytest -q -s -m live

@@ -1,0 +1,20 @@
+{"text": "Where is order 4471?", "intent": "order_status", "order_id": "4471"}
+{"text": "Has my speaker shipped yet? Order 4471", "intent": "order_status", "order_id": "4471"}
+{"text": "My package hasn't arrived and it was due Tuesday", "intent": "order_status", "order_id": null}
+{"text": "What's the status of 8123?", "intent": "order_status", "order_id": "8123"}
+{"text": "order 4471 where is it???", "intent": "order_status", "order_id": "4471"}
+{"text": "Can I get a refund for order 6012? The charger stopped working", "intent": "refund_request", "order_id": "6012"}
+{"text": "The laptop from order 5520 arrived with a cracked screen, I want my money back", "intent": "refund_request", "order_id": "5520"}
+{"text": "I changed my mind about the monitor, refund please (7300)", "intent": "refund_request", "order_id": "7300"}
+{"text": "Refund 6012", "intent": "refund_request", "order_id": "6012"}
+{"text": "The speaker from order 4471 crackles and I'm really annoyed. I want a refund.", "intent": "refund_request", "order_id": "4471"}
+{"text": "Do the X200 headphones work with an iPhone?", "intent": "product_question", "order_id": null}
+{"text": "Is the wireless speaker waterproof?", "intent": "product_question", "order_id": null}
+{"text": "What's the warranty on laptops?", "intent": "product_question", "order_id": null}
+{"text": "Is the X300 in stock?", "intent": "product_question", "order_id": null}
+{"text": "This is the third time my delivery is late. Terrible service.", "intent": "complaint", "order_id": null}
+{"text": "Your courier threw my parcel over the fence", "intent": "complaint", "order_id": null}
+{"text": "I've been waiting an hour for someone to help me", "intent": "complaint", "order_id": null}
+{"text": "Hi", "intent": "other", "order_id": null}
+{"text": "How do I change the email address on my account?", "intent": "other", "order_id": null}
+{"text": "Thanks, that solved it!", "intent": "other", "order_id": null}

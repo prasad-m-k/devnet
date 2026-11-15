@@ -1,0 +1,30 @@
+{
+  "eval_set_id": "rocktech_orders",
+  "name": "RockTech order questions",
+  "eval_cases": [
+    {
+      "eval_id": "where_is_4471",
+      "conversation": [
+        {
+          "invocation_id": "turn-1",
+          "user_content": {"role": "user", "parts": [{"text": "Where is order 4471?"}]},
+          "final_response": {"role": "model", "parts": [{"text": "Your wireless speaker (order 4471) has shipped and should arrive on 2 November."}]},
+          "intermediate_data": {"tool_uses": [{"name": "order_lookup", "args": {"order_id": "4471"}}]}
+        }
+      ],
+      "session_input": {"app_name": "my_agent", "user_id": "test-user", "state": {}}
+    },
+    {
+      "eval_id": "unknown_order",
+      "conversation": [
+        {
+          "invocation_id": "turn-1",
+          "user_content": {"role": "user", "parts": [{"text": "What happened to order 9999?"}]},
+          "final_response": {"role": "model", "parts": [{"text": "I can't find order 9999 on your account. Could you check the number?"}]},
+          "intermediate_data": {"tool_uses": [{"name": "order_lookup", "args": {"order_id": "9999"}}]}
+        }
+      ],
+      "session_input": {"app_name": "my_agent", "user_id": "test-user", "state": {}}
+    }
+  ]
+}

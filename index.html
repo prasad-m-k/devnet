@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agentic AI Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Nunito+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: documentation shell. Sticky top bar; left pane = topic tree (product > section > task); centre = one how-to article built from blocks; right "On this page" rail on wide screens. Kakudi course deck palette. */
+:root {
+  --bg: #F7F4EC;
+  --pane: #EFEADD;
+  --surface: #ECE6D8;
+  --ink: #1B1A2E;
+  --body: #4A4858;
+  --muted: #6B6878;
+  --rule: #D8CFBC;
+  --orange: #B5441C;
+  --orange-fill: #E8663D;
+  --blue: #2F5FB3;
+  --select: #F6C9B5;
+  --note: #FBF9F3;
+  --tip: #EAF0E0;
+  --code-bg: #1B1A2E;
+  --code-fg: #F7F4EC;
+  --code-dim: #8E8AA3;
+  --code-str: #F6C9B5;
+  --font-display: 'Space Grotesk', Arial, sans-serif;
+  --font-body: 'Nunito Sans', 'Segoe UI', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --top-h: 60px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1B1A2E; --pane: #201F35; --surface: #2A2942; --ink: #F7F4EC; --body: #C9C5D8; --muted: #8E8AA3;
+    --rule: #3D3B58; --orange: #F08A5D; --blue: #8FB3F0; --select: #4A2E2A; --note: #232238; --tip: #24302A;
+    --code-bg: #12111F; --code-fg: #F7F4EC; --code-dim: #8E8AA3; --code-str: #F6C9B5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1B1A2E; --pane: #201F35; --surface: #2A2942; --ink: #F7F4EC; --body: #C9C5D8; --muted: #8E8AA3;
+  --rule: #3D3B58; --orange: #F08A5D; --blue: #8FB3F0; --select: #4A2E2A; --note: #232238; --tip: #24302A;
+  --code-bg: #12111F; --code-fg: #F7F4EC; --code-dim: #8E8AA3; --code-str: #F6C9B5;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; } img { max-width: 100%; } [hidden] { display: none !important; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: #1B1A2E; }
+
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; height: var(--top-h); background: #1B1A2E; color: #F7F4EC;
+  display: flex; align-items: center; gap: 14px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top .logo { background: #F7F4EC; border-radius: 8px; padding: 4px 8px; display: flex; flex: none; }
+.top .logo img { height: 30px; width: auto; display: block; }
+.top .title { font-family: var(--font-display); font-weight: 700; font-size: 19px; color: #F7F4EC; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top .title span { color: #F08A5D; }
+.top .spacer { flex: 1; }
+.menu-btn { display: none; font: inherit; font-weight: 700; font-size: 14px; color: #F7F4EC; background: transparent; border: 1px solid #4A4868; border-radius: 8px; padding: 6px 12px; cursor: pointer; flex: none; }
+.level { display: flex; border: 1px solid #4A4868; border-radius: 999px; padding: 2px; flex: none; }
+.level button { font: inherit; font-size: 13px; font-weight: 700; color: #C9C5D8; background: transparent; border: 0; border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.level button[aria-pressed="true"] { background: #F7F4EC; color: #1B1A2E; }
+
+.shell { display: grid; grid-template-columns: 310px minmax(0, 1fr); min-height: calc(100% - var(--top-h)); }
+.side { position: sticky; top: calc(var(--top-h) + env(safe-area-inset-top, 0px)); height: calc(100vh - var(--top-h) - env(safe-area-inset-top, 0px)); background: var(--pane); border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column; min-width: 0; padding-left: max(0px, env(safe-area-inset-left, 0px)); }
+.side-tools { padding: 14px 14px 10px; display: grid; gap: 8px; border-bottom: 1px solid var(--rule); }
+.search { position: relative; }
+.search input { width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 34px 8px 10px; }
+.search input:focus { outline: none; border-color: var(--orange-fill); box-shadow: 0 0 0 2px var(--orange-fill); }
+.search input::placeholder { color: var(--muted); }
+.search kbd { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-family: var(--font-mono); font-size: 12px; color: var(--muted); border: 1px solid var(--rule); border-radius: 5px; padding: 0 6px; }
+select { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 8px; width: 100%; }
+.side-meta { font-size: 13px; color: var(--muted); }
+nav.tree { overflow-y: auto; padding: 8px 0 40px; flex: 1; font-size: 15px; }
+.tree a { display: block; text-decoration: none; color: var(--body); }
+.tree a:hover { background: var(--surface); }
+.tree .home { font-weight: 700; color: var(--ink); padding: 6px 16px; }
+.tree details { margin: 0; }
+.tree summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.tree summary::-webkit-details-marker { display: none; }
+.tree summary::before { content: ""; width: 0; height: 0; border-left: 6px solid var(--muted); border-top: 5px solid transparent; border-bottom: 5px solid transparent; transition: transform .15s; flex: none; }
+.tree details[open] > summary::before { transform: rotate(90deg); }
+.tree .prod > summary { padding: 8px 16px; font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--ink); }
+.tree .prod > summary a { display: inline; color: inherit; background: none; }
+.tree .soon { font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); border: 1px solid var(--rule); border-radius: 999px; padding: 0 7px; margin-left: auto; }
+.tree .sec > summary { padding: 5px 16px 5px 30px; font-weight: 700; color: var(--ink); font-size: 14px; }
+.tree .sec > summary .n { margin-left: auto; font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--muted); }
+.tree ul { list-style: none; margin: 0 0 4px; padding: 0; }
+.tree li a { padding: 4px 16px 4px 52px; line-height: 1.4; border-left: 3px solid transparent; font-size: 14.5px; }
+.tree .idx { padding: 6px 16px 6px 30px; font-size: 14px; font-weight: 600; color: var(--blue); }
+.tree a[aria-current="page"] { background: var(--select); color: var(--ink); border-left-color: var(--orange-fill); font-weight: 700; }
+.tree mark { background: var(--select); color: inherit; border-radius: 2px; }
+.tree .none { padding: 12px 16px; color: var(--muted); font-size: 14px; }
+
+.content-wrap { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+main { min-width: 0; max-width: 840px; width: 100%; padding-block: 28px 80px; padding-left: max(36px, env(safe-area-inset-left, 0px)); padding-right: max(36px, env(safe-area-inset-right, 0px)); }
+main:focus { outline: none; }
+.crumbs { font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 8px; margin-bottom: 10px; }
+.crumbs a { color: var(--blue); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.crumbs span[aria-hidden] { color: var(--rule); }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(30px, 4.4vw, 42px); line-height: 1.1; margin: 0 0 10px; text-wrap: balance; }
+.summary { font-size: 19px; color: var(--body); margin: 0 0 14px; max-width: 62ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); padding-bottom: 18px; border-bottom: 1px solid var(--rule); margin-bottom: 8px; }
+.lab { font-family: var(--font-mono); font-size: 12.5px; color: var(--blue); border: 1px solid var(--blue); border-radius: 999px; padding: 0 8px; white-space: nowrap; }
+article { min-width: 0; }
+article h2 { font-family: var(--font-display); font-weight: 700; font-size: 23px; margin: 34px 0 10px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; scroll-margin-top: calc(var(--top-h) + 20px); }
+.adv-tag { font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); border: 1px solid var(--blue); border-radius: 999px; padding: 1px 8px; }
+article > p { margin: 0 0 12px; max-width: 68ch; color: var(--body); }
+article a { color: var(--blue); }
+article ol.steps { margin: 0 0 14px; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; max-width: 68ch; }
+article ol.steps li { counter-increment: s; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; color: var(--body); }
+article ol.steps li::before { content: counter(s); font-family: var(--font-mono); font-weight: 600; font-size: 13px; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; margin-top: 1px; }
+.code { position: relative; min-width: 0; margin: 14px 0 14px; }
+.code pre { font-family: var(--font-mono); font-size: 14px; line-height: 1.6; background: var(--code-bg); color: var(--code-fg); border-radius: 10px; padding: 20px 16px 14px; padding-right: 74px; margin: 0; overflow-x: auto; }
+.code .c { color: var(--code-dim); }
+.code .str { color: var(--code-str); }
+.code .label { position: absolute; top: -9px; left: 12px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: var(--orange-fill); color: #1B1A2E; border-radius: 4px; padding: 1px 7px; }
+.code .label.own { background: #8FB3F0; }
+.copy { position: absolute; top: 8px; right: 8px; font: inherit; font-size: 12px; font-weight: 700; color: var(--code-fg); background: transparent; border: 1px solid #4A4868; border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+.out { margin: -4px 0 14px; border: 1px dashed var(--rule); border-radius: 10px; padding: 10px 14px; font-size: 14px; color: var(--body); white-space: pre-wrap; max-width: 76ch; }
+.out b { display: block; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.call { border-radius: 0 10px 10px 0; padding: 10px 14px; margin: 0 0 12px; max-width: 70ch; color: var(--body); border: 1px solid var(--rule); }
+.call b.k { display: block; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 2px; }
+.call.watch { background: var(--note); border-left: 4px solid var(--orange-fill); }
+.call.watch b.k { color: var(--orange); }
+.call.tip { background: var(--tip); border-left: 4px solid #6E9A4E; }
+.call.tip b.k { color: var(--ink); }
+.table-wrap { overflow-x: auto; min-width: 0; margin: 4px 0 16px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule); color: var(--body); }
+th { font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); }
+td:first-child { color: var(--ink); font-weight: 600; }
+code { font-family: var(--font-mono); font-size: 0.88em; background: var(--surface); border-radius: 4px; padding: 1px 5px; overflow-wrap: anywhere; }
+td.api { font-family: var(--font-mono); font-size: 13.5px; overflow-wrap: anywhere; }
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 44px; }
+.pager a { display: grid; gap: 2px; text-decoration: none; border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px; color: var(--ink); min-width: 0; }
+.pager a:hover { border-color: var(--orange-fill); }
+.pager small { font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.pager span { font-weight: 700; }
+.pager .next { text-align: right; grid-column: 2; }
+.toc { display: none; }
+body.essentials .advonly { display: none !important; }
+.hint { font-size: 14px; color: var(--muted); margin-top: 26px; }
+.hint button { font: inherit; color: var(--blue); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+
+.lede { font-size: 18px; color: var(--body); max-width: 62ch; margin: 0 0 8px; }
+.prods { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 18px 0 8px; }
+.prods a, .prods div { display: grid; gap: 6px; align-content: start; text-decoration: none; color: var(--body); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; background: var(--bg); }
+.prods a:hover { border-color: var(--orange-fill); }
+.prods b { font-family: var(--font-display); font-size: 22px; color: var(--ink); }
+.prods small { font-size: 13px; color: var(--muted); font-weight: 700; }
+.secgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px 24px; margin-top: 8px; }
+.secgrid section h3 { font-family: var(--font-display); font-size: 17px; margin: 0 0 2px; }
+.secgrid section p { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+.secgrid ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }
+.secgrid li a { color: var(--blue); text-decoration: none; font-size: 15px; }
+.secgrid li a:hover { text-decoration: underline; }
+.path { counter-reset: p; list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 6px; }
+.path li { counter-increment: p; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; }
+.path li::before { content: counter(p); font-family: var(--font-mono); font-size: 13px; font-weight: 600; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--orange); color: var(--orange); display: grid; place-items: center; }
+.path li span { color: var(--muted); font-size: 14px; }
+.log { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.log li { color: var(--body); font-size: 15px; }
+.log time { font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin-right: 10px; }
+footer { font-size: 13px; color: var(--muted); margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--rule); }
+footer p { margin: 0 0 6px; max-width: 72ch; }
+
+body:not(.show-labs) .labref { display: none; }
+ul.docs { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 6px; }
+ul.docs a { color: var(--blue); font-weight: 600; }
+ul.docs span { font-size: 13px; color: var(--muted); font-family: var(--font-mono); }
+.ideas { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); margin: -2px 0 8px; }
+.ideas a { font-size: 13.5px; font-weight: 600; color: var(--ink); text-decoration: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 999px; padding: 1px 10px; }
+.ideas a:hover { border-color: var(--orange-fill); }
+.terms { display: grid; }
+.term { padding: 20px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 8px; min-width: 0; scroll-margin-top: calc(var(--top-h) + 16px); }
+.term:target, .term.hit { background: var(--surface); margin-inline: -16px; padding-inline: 16px; border-radius: 12px; }
+.term-head { display: flex; align-items: baseline; justify-content: space-between; gap: 6px 16px; flex-wrap: wrap; }
+.term h3 { font-family: var(--font-display); font-size: 22px; margin: 0; }
+.term h3 a { color: inherit; text-decoration: none; }
+.term h3 a:hover { text-decoration: underline; text-decoration-color: var(--orange-fill); }
+.term .aka { font-size: 14px; color: var(--muted); margin: 2px 0 0; }
+.day { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); border: 1px solid var(--orange); border-radius: 999px; padding: 0 9px; white-space: nowrap; }
+.day.bg { color: var(--muted); border-color: var(--rule); }
+.term .def { margin: 0; max-width: 68ch; color: var(--body); }
+.term .ex { margin: 0; max-width: 68ch; background: var(--note); border-left: 4px solid var(--rule); border-radius: 0 10px 10px 0; padding: 8px 14px; color: var(--body); font-size: 15px; }
+.term .ex b, .links b { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px; align-items: baseline; }
+.links a { color: var(--blue); text-decoration: none; font-weight: 600; }
+.links a:hover { text-decoration: underline; }
+.links.lab a { color: var(--orange); }
+a:focus-visible, button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px solid var(--orange-fill); outline-offset: 2px; }
+.scrim { display: none; }
+
+@media (min-width: 1300px) {
+  .content-wrap { grid-template-columns: minmax(0, 840px) 230px; justify-content: start; }
+  .toc { display: block; position: sticky; top: calc(var(--top-h) + 28px); align-self: start; padding: 28px 16px 0 0; font-size: 14px; }
+  .toc b { display: block; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .toc a { display: block; color: var(--body); text-decoration: none; padding: 3px 0 3px 12px; border-left: 2px solid var(--rule); }
+  .toc a:hover { color: var(--ink); border-left-color: var(--orange-fill); }
+}
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .menu-btn { display: inline-block; }
+  .side { position: fixed; z-index: 25; top: calc(var(--top-h) + env(safe-area-inset-top, 0px)); left: 0; bottom: 0; height: auto; width: min(330px, 88vw); transform: translateX(-102%); transition: transform .2s; }
+  body.nav-open .side { transform: none; box-shadow: 8px 0 24px rgba(0,0,0,.25); }
+  body.nav-open .scrim { display: block; position: fixed; inset: 0; z-index: 24; background: rgba(27,26,46,.4); }
+  main { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+}
+@media (max-width: 560px) {
+  .top { gap: 8px; }
+  .top .title { font-size: 15px; }
+  .top .logo { display: none; }
+  .level button { padding: 4px 8px; font-size: 12px; }
+  .search kbd { display: none; }
+  .pager { grid-template-columns: minmax(0, 1fr); }
+  .pager .next { grid-column: 1; }
+  .code pre { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) { .side, .tree summary::before { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <button class="menu-btn" id="menu" type="button" aria-controls="side" aria-expanded="false">Contents</button>
+  <!-- Logo hidden for the public edition. To show it again, remove this comment and set SHOW.logo = true in reference_core.js.
+  <span class="logo"><img src="kakudi_logo.png" alt="Kakudi Inc. logo"></span>
+  -->
+  <a class="title" href="#overview">Agentic AI <span>Reference</span></a>
+  <span class="spacer"></span>
+  <div class="level" role="group" aria-label="How much detail to show">
+    <button type="button" data-level="essentials" aria-pressed="false">Essentials</button>
+    <button type="button" data-level="full" aria-pressed="true">Full detail</button>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="side" id="side" aria-label="Contents">
+    <div class="side-tools">
+      <div class="search">
+        <label for="q" style="position:absolute;left:-9999px">Filter topics</label>
+        <input id="q" type="search" placeholder="Filter: models, token, retry, RAG" autocomplete="off" spellcheck="false">
+        <kbd>/</kbd>
+      </div>
+      <label for="lab" style="position:absolute;left:-9999px">Show topics for a lab, or concepts for a course day</label>
+      <select id="lab"></select>
+      <div class="side-meta" id="count" aria-live="polite"></div>
+    </div>
+    <nav class="tree" id="tree"></nav>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+  <div class="content-wrap">
+    <main id="main" tabindex="-1"></main>
+    <aside class="toc" id="toc" aria-label="On this page"></aside>
+  </div>
+</div>
+
+<script src="reference_core.js"></script>
+<script src="topics_gemini.js"></script>
+<script src="topics_adk.js"></script>
+<script src="topics_gcp.js"></script>
+<script src="topics_ap.js"></script>
+<script src="topics_testing.js"></script>
+<script src="topics_monitoring.js"></script>
+<script src="topics_claude.js"></script>
+<script src="concepts.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[c]));
+const strip = h => String(h || "").replace(/<[^>]+>/g, " ");
+const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+
+/* index everything */
+const PRODUCTS = REF.products;
+const TOPIC = {};          // "gemini-models" -> {product, topic}
+const ORDERED = {};        // product id -> topics in tree order
+for (const p of PRODUCTS) {
+  ORDERED[p.id] = p.sections.flatMap(([s]) => p.topics.filter(t => t.section === s));
+  for (const t of ORDERED[p.id]) {
+    t.key = `${p.id}-${t.id}`;
+    t.text = (t.title + " " + t.summary + " " + t.blocks.map(b => strip(b.p || b.h || b.tip || b.watch || b.out || "") + " " + (Array.isArray(b.code) ? b.code.join("\n") : b.code || "") + " " + (b.steps || []).map(strip).join(" ") + " " + (b.table || []).flat().map(strip).join(" ")).join(" ") + " " + (t.apis || []).flat().join(" ")).toLowerCase();
+    TOPIC[t.key] = { p, t };
+  }
+}
+/* concepts */
+const C = REF.concepts || { cats: [], terms: [] };
+const TERM = {}, USED_IN = {};
+for (const x of C.terms) {
+  TERM[x.id] = x;
+  x.text = (x.term + " " + (x.aka || []).join(" ") + " " + strip(x.def) + " " + strip(x.ex)).toLowerCase();
+  x.name = x.term.toLowerCase() + " " + (x.aka || []).join(" ").toLowerCase();
+}
+for (const p of PRODUCTS) for (const t of ORDERED[p.id] || []) for (const c of t.concepts || []) (USED_IN[c] = USED_IN[c] || []).push({ p, t });
+const CAT = Object.fromEntries(C.cats.map(([n, d]) => ["concepts-" + slug(n), { name: n, blurb: d }]));
+const catSlug = n => "concepts-" + slug(n);
+const dayLabel = x => x.day == null ? "Background" : "Day " + x.day;
+const state = { q: "", lab: "any", route: "overview" };
+
+/* code colouring: Python strings and comments */
+function hl(text) {
+  return text.split(/("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|#[^\n]*)/).map((part, i) => {
+    if (i % 2 === 0) return esc(part);
+    return part[0] === "#" ? `<span class="c">${esc(part)}</span>` : `<span class="str">${esc(part)}</span>`;
+  }).join("");
+}
+const codeText = b => (Array.isArray(b.code) ? b.code.join("\n") : b.code).replace(/^\n+|\s+$/g, "");
+
+/* ---------- left pane */
+function hits(t, words) {
+  if (state.lab.startsWith("day:")) return false;
+  if (state.lab.startsWith("lab:") && !t.labs.includes(Number(state.lab.slice(4)))) return false;
+  return words.every(w => t.text.includes(w));
+}
+function termHits(x, words) {
+  if (state.lab.startsWith("lab:")) return false;
+  if (state.lab.startsWith("day:") && (x.day == null ? "bg" : String(x.day)) !== state.lab.slice(4)) return false;
+  return words.every(w => x.text.includes(w));
+}
+function mark(text, words) {
+  if (!words.length) return esc(text);
+  const re = new RegExp("(" + words.map(escRe).join("|") + ")", "gi");
+  return text.split(re).map((x, i) => i % 2 ? `<mark>${esc(x)}</mark>` : esc(x)).join("");
+}
+function renderTree() {
+  const words = state.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const filtering = words.length > 0 || state.lab !== "any";
+  const saved = JSON.parse(store("ref-closed") || "[]");
+  const cur = TOPIC[state.route];
+  const curr = k => state.route === k ? 'aria-current="page"' : "";
+  let shown = 0, total = 0;
+  let html = `<a class="home" href="#overview" ${curr("overview")}>Overview</a>`;
+  const curCat = TERM[state.route] ? catSlug(TERM[state.route].cat) : state.route.startsWith("term-") ? catSlug((TERM[state.route.slice(5)] || {}).cat || "") : state.route;
+  {
+    let inner = "";
+    for (const [n] of C.cats) {
+      const list = C.terms.filter(x => x.cat === n && termHits(x, words));
+      if (!list.length) continue;
+      if (filtering) {
+        shown += list.length;
+        inner += `<details class="sec" open><summary>${esc(n)}<span class="n">${list.length}</span></summary><ul>` +
+          list.map(x => `<li><a href="#term-${x.id}" ${curr("term-" + x.id)}>${mark(x.term, words)}</a></li>`).join("") + `</ul></details>`;
+      } else {
+        const k = catSlug(n);
+        inner += `<ul><li><a href="#${k}" ${curCat === k ? 'aria-current="page"' : ""} style="padding-left:30px">${esc(n)} <span style="float:right;font-family:var(--font-mono);font-size:12px;color:var(--muted)">${list.length}</span></a></li></ul>`;
+      }
+    }
+    if (inner || !filtering) {
+      const open = filtering || !saved.includes("concepts") || curCat.startsWith("concepts");
+      html += `<details class="prod" data-k="concepts" ${open ? "open" : ""}><summary><a href="#concepts" ${curr("concepts")}>Concepts</a></summary>${inner}</details>`;
+    }
+  }
+  for (const p of PRODUCTS) {
+    total += p.topics.length;
+    if (p.planned) {
+      if (!filtering) html += `<details class="prod"><summary><a href="#${p.id}" ${curr(p.id)}>${esc(p.name)}</a><span class="soon">Coming</span></summary></details>`;
+      continue;
+    }
+    let inner = "";
+    for (const [s] of p.sections) {
+      const list = p.topics.filter(t => t.section === s && hits(t, words));
+      if (!list.length) continue;
+      shown += list.length;
+      const key = `${p.id}/${s}`;
+      const open = filtering || (cur && cur.p === p && cur.t.section === s) || !saved.includes(key);
+      inner += `<details class="sec" data-k="${esc(key)}" ${open ? "open" : ""}><summary>${esc(s)}<span class="n">${list.length}</span></summary><ul>` +
+        list.map(t => `<li><a href="#${t.key}" ${curr(t.key)}>${mark(t.title, words)}</a></li>`).join("") + `</ul></details>`;
+    }
+    if (!inner && filtering) continue;
+    const pOpen = filtering || !saved.includes(p.id) || (cur && cur.p === p);
+    html += `<details class="prod" data-k="${p.id}" ${pOpen ? "open" : ""}><summary><a href="#${p.id}" ${curr(p.id)}>${esc(p.name)}</a></summary>${inner}` +
+      (filtering ? "" : `<a class="idx" href="#${p.id}-index" ${curr(p.id + "-index")}>API index, A to Z</a>`) + `</details>`;
+  }
+  if (filtering && !shown) html += `<p class="none">Nothing matches. Try one word, or clear the filter. The filter also reads the code, so “429” or “parts” works.</p>`;
+  $("#tree").innerHTML = html;
+  $("#count").textContent = filtering ? `${shown} matches` : `${C.terms.length} concepts · ${total} topics`;
+  $("#tree").querySelector('[aria-current="page"]')?.scrollIntoView({ block: "nearest" });
+}
+$("#tree").addEventListener("toggle", e => {
+  if (state.q || state.lab !== "any") return;
+  const closed = [...document.querySelectorAll("#tree details[data-k]:not([open])")].map(d => d.dataset.k);
+  store("ref-closed", JSON.stringify(closed));
+}, true);
+
+/* ---------- article blocks */
+function block(b, t) {
+  if (b.lab && !SHOW.labs) return "";
+  const adv = b.adv ? " advonly" : "";
+  if (b.h) return `<h2 id="${t.key}--${slug(b.h)}" class="${adv}" data-toc="${esc(b.h)}">${esc(b.h)}${b.adv ? '<span class="adv-tag">Advanced</span>' : ""}</h2>`;
+  if (b.p) return `<p class="${adv}">${b.p}</p>`;
+  if (b.steps) return `<ol class="steps${adv}">${b.steps.map(s => `<li><span>${s}</span></li>`).join("")}</ol>`;
+  if (b.code) {
+    const label = (SHOW.labs && b.label) ? b.label : (b.lang || "Python"), own = SHOW.labs && /^Not in the labs/.test(label);
+    return `<div class="code${adv}"><span class="label${own ? " own" : ""}">${esc(label)}</span><pre>${hl(codeText(b))}</pre><button type="button" class="copy">Copy</button></div>`;
+  }
+  if (b.out) return `<div class="out${adv}"><b>What you should see</b>${b.out}</div>`;
+  if (b.table) {
+    const keep = (_, i) => SHOW.labs || i !== b.labcol;
+    return `<div class="table-wrap${adv}"><table><thead><tr>${b.table[0].filter(keep).map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${
+      b.table.slice(1).map(r => `<tr>${r.filter(keep).map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  }
+  if (b.watch) return `<div class="call watch${adv}"><b class="k">Watch out</b>${b.watch}</div>`;
+  if (b.tip) return `<div class="call tip${adv}"><b class="k">Tip</b>${b.tip}</div>`;
+  return "";
+}
+const labChips = labs => labs.map(n => `<span class="lab" title="${esc(LABS[n])}">Lab ${n}</span>`).join("");
+
+function topicPage(p, t) {
+  const list = ORDERED[p.id], i = list.indexOf(t), prev = list[i - 1], next = list[i + 1];
+  const apis = (t.apis || []).length ? `<h2 id="${t.key}--apis" data-toc="APIs on this page">APIs on this page</h2><div class="table-wrap"><table><thead><tr><th>Name</th><th>What it does</th></tr></thead><tbody>${
+    t.apis.map(([n, d]) => `<tr><td class="api">${esc(n)}</td><td>${esc(d)}</td></tr>`).join("")}</tbody></table></div>` : "";
+  const docs = (t.docs || []).length ? `<h2 id="${t.key}--docs" data-toc="Official documentation">Official documentation</h2><ul class="docs">${
+    t.docs.map(([n, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)}</a> <span>${esc(u.replace(/^https?:\/\//, "").split("/")[0])}</span></li>`).join("")}</ul>` : "";
+  return `
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Reference</a><span aria-hidden="true">/</span><a href="#${p.id}">${esc(p.name)}</a><span aria-hidden="true">/</span><span>${esc(t.section)}</span></nav>
+  <h1>${esc(t.title)}</h1>
+  <p class="summary">${t.summary}</p>
+  ${SHOW.labs ? `<div class="meta">Used in ${labChips(t.labs)}</div>` : `<div class="meta" style="padding-bottom:10px"></div>`}
+  ${(t.concepts || []).length ? `<div class="ideas">Key ideas: ${t.concepts.filter(c => TERM[c]).map(c => `<a href="#term-${c}">${esc(TERM[c].term)}</a>`).join("")}</div>` : ""}
+  <article>${t.blocks.map(b => block(b, t)).join("")}${apis}${docs}</article>
+  <p class="hint" data-esshint hidden>Showing essentials. <button type="button" data-level="full">Show the advanced parts of this page</button></p>
+  <div class="pager">${prev ? `<a class="prev" href="#${prev.key}"><small>Previous</small><span>${esc(prev.title)}</span></a>` : ""}${next ? `<a class="next" href="#${next.key}"><small>Next</small><span>${esc(next.title)}</span></a>` : ""}</div>`;
+}
+function productPage(p) {
+  if (p.planned) return `
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Reference</a><span aria-hidden="true">/</span><span>${esc(p.name)}</span></nav>
+  <h1>${esc(p.name)}</h1><p class="lede">${p.blurb}</p>
+  <p class="lede">The topics will follow the same path as Gemini, so you can compare the two side by side: install, access, client setup, models, then calls, tools, memory and voice.</p>`;
+  return `
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Reference</a><span aria-hidden="true">/</span><span>${esc(p.name)}</span></nav>
+  <h1>${esc(p.name)}</h1>
+  <p class="lede">${p.blurb}</p>
+  <div class="secgrid">${p.sections.map(([s, d]) => `<section><h3>${esc(s)}</h3><p>${d}</p><ul>${
+    p.topics.filter(t => t.section === s).map(t => `<li><a href="#${t.key}">${esc(t.title)}</a></li>`).join("")}</ul></section>`).join("")}</div>`;
+}
+function indexPage(p) {
+  const rows = p.topics.flatMap(t => (t.apis || []).map(([n, d]) => ({ n, d, t }))).sort((a, b) => a.n.replace(/^[^a-z]+/i, "").localeCompare(b.n.replace(/^[^a-z]+/i, ""), "en", { sensitivity: "base" }));
+  return `
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Reference</a><span aria-hidden="true">/</span><a href="#${p.id}">${esc(p.name)}</a><span aria-hidden="true">/</span><span>API index</span></nav>
+  <h1>${esc(p.name)} API index</h1>
+  <p class="lede">Every class, function and field used in the topics, A to Z. Click the topic to see it in use.</p>
+  <div class="table-wrap"><table><thead><tr><th>Name</th><th>What it does</th><th>Topic</th></tr></thead><tbody>${
+    rows.map(r => `<tr><td class="api">${esc(r.n)}</td><td>${esc(r.d)}</td><td><a href="#${r.t.key}">${esc(r.t.title)}</a></td></tr>`).join("")}</tbody></table></div>`;
+}
+function termCard(x) {
+  const rel = (x.rel || []).filter(r => TERM[r]).map(r => `<a href="#term-${r}">${esc(TERM[r].term)}</a>`).join("");
+  const used = (USED_IN[x.id] || []).map(({ p, t }) => `<a href="#${t.key}">${esc(p.name)}: ${esc(t.title)}</a>`).join("");
+  return `<div class="term" id="term-${x.id}">
+    <div class="term-head"><div><h3><a href="#term-${x.id}">${esc(x.term)}</a></h3>${(x.aka || []).length ? `<p class="aka">Also called: ${x.aka.map(esc).join(", ")}</p>` : ""}</div>
+    ${SHOW.days ? `<span class="day${x.day == null ? " bg" : ""}">${dayLabel(x)}</span>` : ""}</div>
+    <p class="def">${x.def}</p>
+    ${x.ex ? `<p class="ex"><b>Example</b>${x.ex}</p>` : ""}
+    ${used ? `<div class="links lab"><b>How to do it</b>${used}</div>` : ""}
+    ${rel ? `<div class="links"><b>Related</b>${rel}</div>` : ""}
+  </div>`;
+}
+function catPage(k) {
+  const { name, blurb } = CAT[k];
+  const list = C.terms.filter(x => x.cat === name);
+  const i = C.cats.findIndex(c => c[0] === name), prev = C.cats[i - 1], next = C.cats[i + 1];
+  return `
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Reference</a><span aria-hidden="true">/</span><a href="#concepts">Concepts</a><span aria-hidden="true">/</span><span>${esc(name)}</span></nav>
+  <h1>${esc(name)}</h1>
+  <p class="summary">${esc(blurb)}</p>
+  <div class="meta">${list.length} terms</div>
+  <div class="terms">${list.map(termCard).join("")}</div>
+  <div class="pager">${prev ? `<a class="prev" href="#${catSlug(prev[0])}"><small>Previous</small><span>${esc(prev[0])}</span></a>` : ""}${next ? `<a class="next" href="#${catSlug(next[0])}"><small>Next</small><span>${esc(next[0])}</span></a>` : ""}</div>`;
+}
+function conceptsHome() {
+  return `
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="#overview">Reference</a><span aria-hidden="true">/</span><span>Concepts</span></nav>
+  <h1>Concepts</h1>
+  <p class="lede">What the words mean. ${C.terms.length} terms, each with a plain definition, an example from RockTech (an invented online shop), and links to the how-to topics where you use it.</p>
+  <div class="secgrid">${C.cats.map(([n, d]) => { const list = C.terms.filter(x => x.cat === n); return `<section><h3><a href="#${catSlug(n)}" style="color:inherit;text-decoration:none">${esc(n)}</a></h3><p>${esc(d)}</p><ul>${
+    list.slice(0, 6).map(x => `<li><a href="#term-${x.id}">${esc(x.term)}</a></li>`).join("")}${list.length > 6 ? `<li><a href="#${catSlug(n)}">All ${list.length} terms</a></li>` : ""}</ul></section>`; }).join("")}</div>`;
+}
+function homePage() {
+  const g = PRODUCTS.find(p => p.id === "gemini");
+  return `
+  <h1>Agentic AI Reference</h1>
+  <p class="lede">What the words mean, and how to build with them. Concepts explain the ideas; each product section gives one task per page, with working Python. Pick a topic on the left. Each page explains the idea in plain words, gives the steps, shows working Python with a Copy button, tells you what you should see, and warns you about the usual mistake.</p>
+  <div class="prods"><a href="#concepts"><b>Concepts</b><small>${C.terms.length} terms</small><span>What the words mean: tokens, agents, RAG, guardrails and the rest, with RockTech examples. </span></a>${PRODUCTS.map(p => p.planned
+    ? `<div><b>${esc(p.name)}</b><small>Coming next</small><span>${p.blurb}</span></div>`
+    : `<a href="#${p.id}"><b>${esc(p.name)}</b><small>${p.topics.length} topics</small><span>${p.blurb}</span></a>`).join("")}</div>
+  <h2 class="hh" style="font-family:var(--font-display);font-size:23px;margin:30px 0 6px">New here? Start with these</h2>
+  <ol class="path">
+    ${["install", "access", "client", "models", "first-call"].map(id => { const t = g.topics.find(x => x.id === id); return `<li><div><a href="#${t.key}" style="color:var(--blue);font-weight:700;text-decoration:none">${esc(t.title)}</a><br><span>${t.summary}</span></div></li>`; }).join("")}
+  </ol>
+  <h2 style="font-family:var(--font-display);font-size:23px;margin:30px 0 6px">Essentials or full detail</h2>
+  <p class="lede" style="font-size:16px">The switch in the top bar sets how much you see. <b>Essentials</b> keeps the explanation, the steps, the code and the warnings. <b>Full detail</b> adds the advanced parts, marked <span class="adv-tag">Advanced</span>: options beyond the basics, production habits and extra code to try. Your choice is remembered in this browser.</p>
+  ${SHOW.changelog ? `<h2 style="font-family:var(--font-display);font-size:23px;margin:30px 0 8px">What's new</h2>
+  <ul class="log">${CHANGELOG.map(c => `<li><time datetime="${c.date}">${c.date}</time>${c.text}</li>`).join("")}</ul>` : ""}
+  <footer>
+    <!-- <p>Kakudi.com</p> -->
+    <p><span class="labref">Gemini topics checked against the Gemini notebooks: Lab 1 (First API Calls, v2), Lab 2 (Embeddings, Routing, Chains), Lab 3 (Agent Loop and Tools, v2), Lab 4 (Voice Channel, v2) and Lab 5 (Memory and State). </span>Model names and SDK fields change, so trust what <code>client.models.list()</code> prints over any name on this page.</p>
+    <p>RockTech, its customers, order numbers and prices are invented for the examples. Prices in code are illustrative.</p>
+  </footer>`;
+}
+
+/* ---------- render */
+function renderToc() {
+  const hs = [...document.querySelectorAll("#main article h2")].filter(h => h.offsetParent !== null);
+  $("#toc").innerHTML = hs.length > 2 ? `<b>On this page</b>${hs.map(h => `<a href="#${state.route}" data-sec="${h.id}">${esc(h.dataset.toc)}</a>`).join("")}` : "";
+}
+function applyLevel(lv) {
+  if (lv) store("ref-level", lv);
+  const level = store("ref-level") === "essentials" ? "essentials" : "full";
+  document.body.classList.toggle("essentials", level === "essentials");
+  document.querySelectorAll(".level button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.level === level)));
+  const hint = document.querySelector("[data-esshint]");
+  if (hint) hint.hidden = level !== "essentials" || !document.querySelector("#main .advonly");
+  renderToc();
+}
+function render() {
+  const r = state.route, hit = TOPIC[r];
+  const prod = PRODUCTS.find(p => p.id === r);
+  const idx = PRODUCTS.find(p => r === p.id + "-index");
+  const term = r.startsWith("term-") ? TERM[r.slice(5)] : null;
+  $("#main").innerHTML = hit ? topicPage(hit.p, hit.t) : prod ? productPage(prod) : idx ? indexPage(idx)
+    : term ? catPage(catSlug(term.cat)) : CAT[r] ? catPage(r) : r === "concepts" ? conceptsHome() : homePage();
+  document.title = hit ? `${hit.t.title} · ${hit.p.name} · Agentic AI Reference` : prod ? `${prod.name} · Agentic AI Reference` : term ? `${term.term} · Concepts` : CAT[r] ? `${CAT[r].name} · Concepts` : "Agentic AI Reference";
+  applyLevel();
+  renderTree();
+}
+function go() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  const valid = TOPIC[h] || CAT[h] || h === "concepts" || (h.startsWith("term-") && TERM[h.slice(5)]) || PRODUCTS.some(p => p.id === h || (!p.planned && h === p.id + "-index"));
+  state.route = valid ? h : "overview";
+  render();
+  document.body.classList.remove("nav-open"); $("#menu").setAttribute("aria-expanded", "false");
+  const target = state.route.startsWith("term-") && document.getElementById(state.route);
+  if (target) { target.scrollIntoView(); } else window.scrollTo(0, 0);
+}
+
+document.body.classList.toggle("show-labs", SHOW.labs);
+if (SHOW.labs || SHOW.days) {
+  const days = [...new Set(C.terms.filter(x => x.day != null).map(x => x.day))].sort((a, b) => a - b);
+  $("#lab").innerHTML = `<option value="any">All labs and days</option>` + (SHOW.labs ? `<optgroup label="Topics used in">` +
+    Object.entries(LABS).map(([n, l]) => `<option value="lab:${n}">${esc(l)}</option>`).join("") + `</optgroup>` : "") +
+    (SHOW.days ? `<optgroup label="Concepts taught on">` + days.map(d => `<option value="day:${d}">Day ${d}</option>`).join("") +
+    (C.terms.some(x => x.day == null) ? `<option value="day:bg">Background</option>` : "") + `</optgroup>` : "");
+} else $("#lab").hidden = true;
+$("#lab").addEventListener("change", e => { state.lab = e.target.value; renderTree(); });
+$("#q").addEventListener("input", e => { state.q = e.target.value; renderTree(); });
+$("#q").addEventListener("keydown", e => {
+  if (e.key === "Enter") { const a = $("#tree li a"); if (a) location.hash = a.getAttribute("href").slice(1); }
+  if (e.key === "Escape") { e.target.value = ""; state.q = ""; renderTree(); }
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) {
+    e.preventDefault(); document.body.classList.add("nav-open"); $("#q").focus();
+  }
+});
+document.addEventListener("click", e => {
+  const lv = e.target.closest("[data-level]");
+  if (lv) { applyLevel(lv.dataset.level); return; }
+  const s = e.target.closest("a[data-sec]");
+  if (s) { e.preventDefault(); document.getElementById(s.dataset.sec)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
+  const b = e.target.closest("button.copy");
+  if (b) {
+    const pre = b.previousElementSibling, text = pre.textContent;
+    const done = () => { b.textContent = "Copied"; setTimeout(() => { b.textContent = "Copy"; }, 1500); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = "Press Ctrl+C"; };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (err) { fallback(); }
+  }
+});
+$("#menu").addEventListener("click", () => { const o = document.body.classList.toggle("nav-open"); $("#menu").setAttribute("aria-expanded", String(o)); });
+$("#scrim").addEventListener("click", () => { document.body.classList.remove("nav-open"); $("#menu").setAttribute("aria-expanded", "false"); });
+window.addEventListener("hashchange", go);
+go();
+</script>
+</body>
+</html>
